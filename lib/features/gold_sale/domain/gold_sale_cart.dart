@@ -1,10 +1,17 @@
+import 'package:gold_shop_app/features/gold_sale/domain/gold_item_status.dart';
+
 import 'gold_sale_calc.dart';
 
 class GoldSaleCartItem {
-  const GoldSaleCartItem({required this.code, required this.input});
+  const GoldSaleCartItem({
+    required this.code,
+    required this.input,
+    required this.status,
+  });
 
   final String code;
   final GoldSaleInput input;
+  final GoldItemStatus status;
 }
 
 class GoldSaleCart {
@@ -13,8 +20,9 @@ class GoldSaleCart {
 
   List<GoldSaleCartItem> get items => List.unmodifiable(_items);
 
-  List<GoldSaleLineResult> get lineResults =>
-      List.unmodifiable(_items.map((item) => _calculator.calculate(item.input)));
+  List<GoldSaleLineResult> get lineResults => List.unmodifiable(
+    _items.map((item) => _calculator.calculate(item.input)),
+  );
 
   int get totalPiasters =>
       lineResults.fold(0, (total, line) => total + line.totalPiasters);
@@ -24,6 +32,10 @@ class GoldSaleCart {
 
     if (normalizedCode.isEmpty) {
       throw ArgumentError('Item code cannot be empty.');
+    }
+
+    if (item.status != GoldItemStatus.available) {
+      throw StateError('This item is not available for a normal sale.');
     }
 
     final alreadyAdded = _items.any(

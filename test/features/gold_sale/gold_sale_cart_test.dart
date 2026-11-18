@@ -1,12 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gold_shop_app/features/gold_sale/domain/gold_item_status.dart';
 import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_calc.dart';
 import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_cart.dart';
 
 void main() {
-  group('GoldSaleBasket', () {
-    GoldSaleCartItem item(String code) {
+  group('GoldSaleCart', () {
+    GoldSaleCartItem item(
+      String code, {
+      GoldItemStatus status = GoldItemStatus.available,
+    }) {
       return GoldSaleCartItem(
         code: code,
+        status: status,
         input: const GoldSaleInput(
           grossWeightMg: 4500,
           stonesWeightMg: 300,
@@ -39,6 +44,22 @@ void main() {
         ..add(item('B-2'));
 
       expect(() => basket.add(item('C-3')), throwsStateError);
+    });
+
+    test('rejects items unavailable for a normal sale', () {
+      final basket = GoldSaleCart();
+
+      for (final status in [
+        GoldItemStatus.reserved,
+        GoldItemStatus.sold,
+        GoldItemStatus.inWorkshop,
+        GoldItemStatus.inTransit,
+      ]) {
+        expect(
+          () => basket.add(item('ITEM-1', status: status)),
+          throwsStateError,
+        );
+      }
     });
   });
 }

@@ -15,6 +15,7 @@ void main() {
         input: const GoldSaleInput(
           grossWeightMg: 4500,
           stonesWeightMg: 300,
+          karat: 21,
           goldPricePerGramPiasters: 420000,
           laborValue: 12000,
           discountPercent: 10,

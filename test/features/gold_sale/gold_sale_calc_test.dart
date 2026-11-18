@@ -9,6 +9,7 @@ void main() {
       const input = GoldSaleInput(
         grossWeightMg: 4500,
         stonesWeightMg: 300,
+        karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: 12000,
         discountPercent: 10,
@@ -30,6 +31,7 @@ void main() {
       const input = GoldSaleInput(
         grossWeightMg: 4500,
         stonesWeightMg: 4500,
+        karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: 12000,
         discountPercent: 10,
@@ -43,6 +45,7 @@ void main() {
       const input = GoldSaleInput(
         grossWeightMg: 4500,
         stonesWeightMg: 300,
+        karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: 12000,
         discountPercent: 11,
@@ -56,6 +59,7 @@ void main() {
       const input = GoldSaleInput(
         grossWeightMg: 4500,
         stonesWeightMg: 300,
+        karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: 12000,
         discountPercent: 11,
@@ -70,6 +74,7 @@ void main() {
       const input = GoldSaleInput(
         grossWeightMg: 0,
         stonesWeightMg: 0,
+        karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: 12000,
         discountPercent: 10,
@@ -83,6 +88,7 @@ void main() {
       const input = GoldSaleInput(
         grossWeightMg: 4500,
         stonesWeightMg: -1,
+        karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: 12000,
         discountPercent: 10,
@@ -96,6 +102,7 @@ void main() {
       const input = GoldSaleInput(
         grossWeightMg: 4500,
         stonesWeightMg: 300,
+        karat: 21,
         goldPricePerGramPiasters: -1,
         laborValue: 12000,
         discountPercent: 10,
@@ -109,6 +116,7 @@ void main() {
       const input = GoldSaleInput(
         grossWeightMg: 4500,
         stonesWeightMg: 300,
+        karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: -1,
         discountPercent: 10,

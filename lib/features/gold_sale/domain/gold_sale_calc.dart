@@ -4,6 +4,7 @@ class GoldSaleInput {
   const GoldSaleInput({
     required this.grossWeightMg,
     required this.stonesWeightMg,
+    required this.karat,
     required this.goldPricePerGramPiasters,
     required this.laborValue,
     required this.discountPercent,
@@ -13,6 +14,7 @@ class GoldSaleInput {
 
   final int grossWeightMg;
   final int stonesWeightMg;
+  final int karat;
 
   final int goldPricePerGramPiasters;
 
@@ -92,6 +94,9 @@ class GoldSaleCalc {
       throw ArgumentError(
         'Stones weight must be zero or more and less than gross weight.',
       );
+    }
+    if (input.karat <= 0 || input.karat > 24) {
+      throw ArgumentError('Karat must be between 1 and 24.');
     }
     if (input.goldPricePerGramPiasters <= 0) {
       throw ArgumentError('Gold price must be greater than zero.');

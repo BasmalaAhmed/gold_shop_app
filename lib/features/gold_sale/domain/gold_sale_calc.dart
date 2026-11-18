@@ -1,4 +1,4 @@
-enum LaborPricingType { perGram, fixed }
+enum LaborPricingType { perGram, percentageOfGoldValue, fixed }
 
 class GoldSaleInput {
   const GoldSaleInput({
@@ -7,9 +7,7 @@ class GoldSaleInput {
     required this.karat,
     required this.goldPricePerGramPiasters,
     required this.laborValue,
-    required this.discountPercent,
     required this.laborPricingType,
-    this.supervisorApprovalNumber,
   });
 
   final int grossWeightMg;
@@ -20,11 +18,7 @@ class GoldSaleInput {
 
   final int laborValue;
 
-  final int discountPercent;
-
   final LaborPricingType laborPricingType;
-
-  final String? supervisorApprovalNumber;
 }
 
 class GoldSaleLineResult {
@@ -50,8 +44,16 @@ class GoldSaleLineResult {
 class GoldSaleCalc {
   const GoldSaleCalc();
 
-  GoldSaleLineResult calculate(GoldSaleInput input) {
+  GoldSaleLineResult calculate(
+    GoldSaleInput input, {
+    required int discountPercent,
+    String? supervisorApprovalNumber,
+  }) {
     _validate(input);
+    validateDiscount(
+      discountPercent: discountPercent,
+      supervisorApprovalNumber: supervisorApprovalNumber,
+    );
 
     final netWeightMg = input.grossWeightMg - input.stonesWeightMg;
 
@@ -60,15 +62,19 @@ class GoldSaleCalc {
       1000,
     );
 
-    final laborBeforeDiscount =
-        input.laborPricingType == LaborPricingType.perGram
-        ? _roundHalfUp(netWeightMg * input.laborValue, 1000)
-        : input.laborValue;
+    final laborBeforeDiscount = switch (input.laborPricingType) {
+      LaborPricingType.perGram => _roundHalfUp(
+        netWeightMg * input.laborValue,
+        1000,
+      ),
+      LaborPricingType.percentageOfGoldValue => _roundHalfUp(
+        goldValue * input.laborValue,
+        100,
+      ),
+      LaborPricingType.fixed => input.laborValue,
+    };
 
-    final discount = _roundHalfUp(
-      laborBeforeDiscount * input.discountPercent,
-      100,
-    );
+    final discount = _roundHalfUp(laborBeforeDiscount * discountPercent, 100);
 
     final laborAfterDiscount = laborBeforeDiscount - discount;
 
@@ -104,12 +110,19 @@ class GoldSaleCalc {
     if (input.laborValue < 0) {
       throw ArgumentError('Labor value cannot be negative.');
     }
-    if (input.discountPercent < 0 || input.discountPercent > 100) {
+  }
+
+  void validateDiscount({
+    required int discountPercent,
+    String? supervisorApprovalNumber,
+  }) {
+    if (discountPercent < 0 || discountPercent > 100) {
       throw ArgumentError('Discount percent must be between 0 and 100.');
     }
-    if (input.discountPercent > 10 &&
-        (input.supervisorApprovalNumber == null ||
-            input.supervisorApprovalNumber!.trim().isEmpty)) {
+
+    if (discountPercent > 10 &&
+        (supervisorApprovalNumber == null ||
+            supervisorApprovalNumber.trim().isEmpty)) {
       throw ArgumentError(
         'Supervisor approval number is required for discounts above 10%.',
       );

@@ -21,7 +21,7 @@ class CartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Color(0XFF8F8073),
+      color: Color(0XFFE8F7EE),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

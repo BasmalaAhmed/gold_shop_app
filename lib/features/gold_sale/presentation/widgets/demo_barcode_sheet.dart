@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gold_shop_app/features/gold_sale/domain/gold_item_status.dart';
-import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_cart.dart';
+import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_product.dart';
 
 class DemoBarcodeSheet extends StatelessWidget {
   const DemoBarcodeSheet({super.key, required this.items});
 
-  final List<GoldSaleCartItem> items;
+  final List<GoldSaleProduct> items;
 
   @override
   Widget build(BuildContext context) {

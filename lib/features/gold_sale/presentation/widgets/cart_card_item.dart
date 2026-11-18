@@ -50,13 +50,9 @@ class CartCardItem extends StatelessWidget {
               Text('الوزن الصافي: ${_formatWeight(result.netWeightMg)}'),
               const SizedBox(height: 8),
               MoneyRow(label: 'قيمة الذهب', amount: result.goldValuePiasters),
-              MoneyRow(
-                label: 'المصنعية قبل الخصم',
-                amount: result.laborBeforeDiscountPiasters,
-              ),
               MoneyRow(label: 'الخصم', amount: result.discountPiasters),
               MoneyRow(
-                label: 'المصنعية بعد الخصم',
+                label: 'المصنعية',
                 amount: result.laborAfterDiscountPiasters,
               ),
               MoneyRow(label: 'الضريبة', amount: result.taxPiasters),

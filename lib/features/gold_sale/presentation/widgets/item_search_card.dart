@@ -15,7 +15,7 @@ class ItemSearchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Color(0XFF8F8073),
+      color: Color(0XFFE8F7EE),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -53,6 +53,7 @@ class ItemSearchCard extends StatelessWidget {
                 backgroundColor: Color(0XFF49111C)
               ),
             ),
+            const SizedBox(height: 12,),
             OutlinedButton.icon(
               onPressed: onChooseDemoBarcode,
               icon: const Icon(Icons.qr_code_scanner),

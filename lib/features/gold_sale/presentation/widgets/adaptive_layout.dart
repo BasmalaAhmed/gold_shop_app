@@ -5,10 +5,12 @@ class AdaptiveLayout extends StatelessWidget {
     super.key,
     required this.searchPanel,
     required this.cartPanel,
+    this.paymentPanel,
   });
 
   final Widget searchPanel;
   final Widget cartPanel;
+  final Widget? paymentPanel;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,20 @@ class AdaptiveLayout extends StatelessWidget {
               children: [
                 SizedBox(width: 340, child: searchPanel),
                 const SizedBox(width: 24),
-                Expanded(child: cartPanel),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        cartPanel,
+                        if (paymentPanel != null) ...[
+                          const SizedBox(height: 16),
+                          paymentPanel!,
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           );
@@ -30,7 +45,15 @@ class AdaptiveLayout extends StatelessWidget {
         return SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
-            children: [searchPanel, const SizedBox(height: 16), cartPanel],
+            children: [
+              searchPanel,
+              const SizedBox(height: 16),
+              cartPanel,
+              if (paymentPanel != null) ...[
+                const SizedBox(height: 16),
+                paymentPanel!,
+              ],
+            ],
           ),
         );
       },

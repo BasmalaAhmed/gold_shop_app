@@ -12,11 +12,10 @@ void main() {
         karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: 12000,
-        discountPercent: 10,
         laborPricingType: LaborPricingType.perGram,
       );
 
-      final result = calculator.calculate(input);
+      final result = calculator.calculate(input, discountPercent: 10);
 
       expect(result.netWeightMg, 4200);
       expect(result.goldValuePiasters, 1764000);
@@ -34,11 +33,13 @@ void main() {
         karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: 12000,
-        discountPercent: 10,
         laborPricingType: LaborPricingType.perGram,
       );
 
-      expect(() => calculator.calculate(input), throwsArgumentError);
+      expect(
+        () => calculator.calculate(input, discountPercent: 10),
+        throwsArgumentError,
+      );
     });
 
     test('rejects discount above 10% without supervisor approval', () {
@@ -48,11 +49,13 @@ void main() {
         karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: 12000,
-        discountPercent: 11,
         laborPricingType: LaborPricingType.perGram,
       );
 
-      expect(() => calculator.calculate(input), throwsArgumentError);
+      expect(
+        () => calculator.calculate(input, discountPercent: 11),
+        throwsArgumentError,
+      );
     });
 
     test('accepts discount above 10% with supervisor approval number', () {
@@ -62,12 +65,17 @@ void main() {
         karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: 12000,
-        discountPercent: 11,
         laborPricingType: LaborPricingType.perGram,
-        supervisorApprovalNumber: 'APR-123',
       );
 
-      expect(() => calculator.calculate(input), returnsNormally);
+      expect(
+        () => calculator.calculate(
+          input,
+          discountPercent: 11,
+          supervisorApprovalNumber: 'APR-123',
+        ),
+        returnsNormally,
+      );
     });
 
     test('rejects zero gross weight', () {
@@ -77,11 +85,13 @@ void main() {
         karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: 12000,
-        discountPercent: 10,
         laborPricingType: LaborPricingType.perGram,
       );
 
-      expect(() => calculator.calculate(input), throwsArgumentError);
+      expect(
+        () => calculator.calculate(input, discountPercent: 10),
+        throwsArgumentError,
+      );
     });
 
     test('rejects negative stones weight', () {
@@ -91,11 +101,13 @@ void main() {
         karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: 12000,
-        discountPercent: 10,
         laborPricingType: LaborPricingType.perGram,
       );
 
-      expect(() => calculator.calculate(input), throwsArgumentError);
+      expect(
+        () => calculator.calculate(input, discountPercent: 10),
+        throwsArgumentError,
+      );
     });
 
     test('rejects negative gold price', () {
@@ -105,11 +117,13 @@ void main() {
         karat: 21,
         goldPricePerGramPiasters: -1,
         laborValue: 12000,
-        discountPercent: 10,
         laborPricingType: LaborPricingType.perGram,
       );
 
-      expect(() => calculator.calculate(input), throwsArgumentError);
+      expect(
+        () => calculator.calculate(input, discountPercent: 10),
+        throwsArgumentError,
+      );
     });
 
     test('rejects negative labor value', () {
@@ -119,11 +133,30 @@ void main() {
         karat: 21,
         goldPricePerGramPiasters: 420000,
         laborValue: -1,
-        discountPercent: 10,
         laborPricingType: LaborPricingType.perGram,
       );
 
-      expect(() => calculator.calculate(input), throwsArgumentError);
+      expect(
+        () => calculator.calculate(input, discountPercent: 10),
+        throwsArgumentError,
+      );
+    });
+
+    test('calculates labor as a percentage of gold value', () {
+      const input = GoldSaleInput(
+        grossWeightMg: 4500,
+        stonesWeightMg: 300,
+        karat: 21,
+        goldPricePerGramPiasters: 420000,
+        laborValue: 3,
+        laborPricingType: LaborPricingType.percentageOfGoldValue,
+      );
+
+      final result = calculator.calculate(input, discountPercent: 0);
+
+      expect(result.goldValuePiasters, 1764000);
+      expect(result.laborBeforeDiscountPiasters, 52920);
+      expect(result.taxPiasters, 7409);
     });
   });
 }

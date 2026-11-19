@@ -11,7 +11,6 @@ class GoldSaleDemoCatalog {
       grossWeightMg: 4500,
       stonesWeightMg: 300,
       karat: 21,
-      goldPricePerGramPiasters: 420000,
     ),
     'DEMO-1002': GoldSaleProduct(
       code: 'DEMO-1002',
@@ -19,7 +18,6 @@ class GoldSaleDemoCatalog {
       grossWeightMg: 3000,
       stonesWeightMg: 150,
       karat: 18,
-      goldPricePerGramPiasters: 360000,
     ),
     'DEMO-1003': GoldSaleProduct(
       code: 'DEMO-1003',
@@ -27,7 +25,6 @@ class GoldSaleDemoCatalog {
       grossWeightMg: 5000,
       stonesWeightMg: 500,
       karat: 21,
-      goldPricePerGramPiasters: 420000,
     ),
   };
 

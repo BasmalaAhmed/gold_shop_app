@@ -4,6 +4,7 @@ import 'package:gold_shop_app/features/gold_sale/domain/gold_item_status.dart';
 import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_calc.dart';
 import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_cart.dart';
 import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_payment.dart';
+import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_price_repo.dart';
 import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_product.dart';
 import 'package:gold_shop_app/features/gold_sale/presentation/widgets/adaptive_layout.dart';
 import 'package:gold_shop_app/features/gold_sale/presentation/widgets/cart_card.dart';
@@ -18,10 +19,11 @@ class GoldSaleView extends StatefulWidget {
   const GoldSaleView({
     super.key,
     required this.onThemeToggle,
+    required this.priceRepository,
   });
 
   final VoidCallback onThemeToggle;
-  
+  final GoldSalePriceRepo priceRepository;
 
   @override
   State<GoldSaleView> createState() => _GoldSaleViewState();
@@ -65,6 +67,18 @@ class _GoldSaleViewState extends State<GoldSaleView> {
       return;
     }
 
+    final int salePricePerGramPiasters;
+
+    try {
+      salePricePerGramPiasters = await widget.priceRepository
+          .getSalePricePerGramPiasters(product.karat);
+    } on StateError {
+      _showMessage('لا يوجد سعر بيع مسجل لهذا العيار.');
+      return;
+    }
+
+    if (!mounted) return;
+
     final labor = await showLaborPricingDialog(context);
     if (!mounted || labor == null) return;
 
@@ -72,7 +86,7 @@ class _GoldSaleViewState extends State<GoldSaleView> {
       grossWeightMg: product.grossWeightMg,
       stonesWeightMg: product.stonesWeightMg,
       karat: product.karat,
-      goldPricePerGramPiasters: product.goldPricePerGramPiasters,
+      goldPricePerGramPiasters: salePricePerGramPiasters,
       laborValue: labor.value,
       laborPricingType: labor.type,
     );
@@ -171,9 +185,7 @@ class _GoldSaleViewState extends State<GoldSaleView> {
       appBar: AppBar(
         title: const Text('شاشة بيع الذهب'),
         centerTitle: true,
-        actions: [
-          ThemeIcon(onThemeToggle: widget.onThemeToggle)
-        ],
+        actions: [ThemeIcon(onThemeToggle: widget.onThemeToggle)],
       ),
       body: SafeArea(
         child: AdaptiveLayout(

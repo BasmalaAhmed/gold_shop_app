@@ -7,7 +7,6 @@ class GoldSaleProduct {
     required this.grossWeightMg,
     required this.stonesWeightMg,
     required this.karat,
-    required this.goldPricePerGramPiasters,
   });
 
   final String code;
@@ -15,5 +14,4 @@ class GoldSaleProduct {
   final int grossWeightMg;
   final int stonesWeightMg;
   final int karat;
-  final int goldPricePerGramPiasters;
 }

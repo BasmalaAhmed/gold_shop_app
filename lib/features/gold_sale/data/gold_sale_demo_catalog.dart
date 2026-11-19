@@ -26,6 +26,27 @@ class GoldSaleDemoCatalog {
       stonesWeightMg: 500,
       karat: 21,
     ),
+    'DEMO-1004': GoldSaleProduct(
+      code: 'DEMO-1004',
+      status: GoldItemStatus.sold,
+      grossWeightMg: 4000,
+      stonesWeightMg: 0,
+      karat: 21,
+    ),
+    'DEMO-1005': GoldSaleProduct(
+      code: 'DEMO-1005',
+      status: GoldItemStatus.inWorkshop,
+      grossWeightMg: 4000,
+      stonesWeightMg: 0,
+      karat: 21,
+    ),
+    'DEMO-1006': GoldSaleProduct(
+      code: 'DEMO-1006',
+      status: GoldItemStatus.inTransit,
+      grossWeightMg: 4000,
+      stonesWeightMg: 0,
+      karat: 21,
+    ),
   };
 
   List<GoldSaleProduct> get demoItems => List.unmodifiable(_records.values);

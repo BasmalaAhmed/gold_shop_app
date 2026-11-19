@@ -1,4 +1,5 @@
 import 'package:gold_shop_app/features/gold_sale/domain/gold_item_status.dart';
+import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_trade_in.dart';
 
 import 'gold_sale_calc.dart';
 
@@ -35,6 +36,32 @@ class GoldSaleCart {
   int get totalPiasters =>
       lineResults.fold(0, (total, line) => total + line.totalPiasters);
 
+  TradeInInput? _tradeIn;
+  TradeInInput? get tradeIn => _tradeIn;
+
+  int get tradeInValuePiasters => _tradeIn == null
+      ? 0
+      : const TradeInCalc().calculate(_tradeIn!).valuePiasters;
+
+  int get amountDuePiasters => totalPiasters - tradeInValuePiasters;
+
+  void setTradeIn(TradeInInput? tradeIn) {
+    if (tradeIn != null) {
+      final value = const TradeInCalc().calculate(tradeIn).valuePiasters;
+      if (value >= totalPiasters) {
+        throw ArgumentError('Trade-in must be less than the invoice total.');
+      }
+    }
+    _tradeIn = tradeIn;
+  }
+
+  void clear() {
+    _items.clear();
+    _discountPercent = 0;
+    _supervisorApprovalNumber = null;
+    _tradeIn = null;
+  }
+
   void add(GoldSaleCartItem item) {
     final normalizedCode = _normalizeCode(item.code);
 
@@ -70,6 +97,11 @@ class GoldSaleCart {
     final normalizedCode = _normalizeCode(code);
 
     _items.removeWhere((item) => _normalizeCode(item.code) == normalizedCode);
+
+    if (_items.isEmpty ||
+        (_tradeIn != null && tradeInValuePiasters >= totalPiasters)) {
+      _tradeIn = null;
+    }
   }
 
   String _normalizeCode(String code) => code.trim().toUpperCase();
@@ -106,6 +138,7 @@ class GoldSaleCart {
     required List<GoldSaleCartItem> items,
     required int discountPercent,
     String? supervisorApprovalNumber,
+    TradeInInput? tradeIn,
   }) {
     final restoredCart = GoldSaleCart();
 
@@ -117,6 +150,7 @@ class GoldSaleCart {
       discountPercent: discountPercent,
       supervisorApprovalNumber: supervisorApprovalNumber,
     );
+    restoredCart.setTradeIn(tradeIn);
 
     _items
       ..clear()
@@ -124,5 +158,6 @@ class GoldSaleCart {
 
     _discountPercent = restoredCart._discountPercent;
     _supervisorApprovalNumber = restoredCart._supervisorApprovalNumber;
+    _tradeIn = restoredCart._tradeIn;
   }
 }

@@ -183,7 +183,7 @@ class _PaymentCardState extends State<PaymentCard> {
             const SizedBox(height: 12),
             FilledButton(
               onPressed: _submit,
-              child: const Text('التحقق من المبلغ'),
+              child: const Text('اتمام المبلغ'),
             ),
           ],
         ),

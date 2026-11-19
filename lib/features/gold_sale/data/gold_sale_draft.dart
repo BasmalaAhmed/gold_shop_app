@@ -2,6 +2,7 @@ import 'package:gold_shop_app/features/gold_sale/domain/gold_item_status.dart';
 import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_calc.dart';
 import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_cart.dart';
 import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_payment_method.dart';
+import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_trade_in.dart';
 
 class GoldSaleDraft {
   GoldSaleDraft({
@@ -11,15 +12,16 @@ class GoldSaleDraft {
     required this.cashAmountText,
     required this.otherAmountText,
     required this.otherMethod,
+    this.tradeIn,
   });
 
   final List<GoldSaleCartItem> items;
   final int discountPercent;
   final String? supervisorApprovalNumber;
-
   final String cashAmountText;
   final String otherAmountText;
   final GoldSalePaymentMethod otherMethod;
+  final TradeInInput? tradeIn;
 
   Map<String, dynamic> toJson() => {
     'items': items.map((item) {
@@ -43,6 +45,14 @@ class GoldSaleDraft {
     'cashAmountText': cashAmountText,
     'otherAmountText': otherAmountText,
     'otherMethod': otherMethod.name,
+    'tradeIn': tradeIn == null
+        ? null
+        : {
+            'weightMg': tradeIn!.weightMg,
+            'karat': tradeIn!.karat,
+            'buyPricePerGramPiasters': tradeIn!.buyPricePerGramPiasters,
+            'deductionBasisPoints': tradeIn!.deductionBasisPoints,
+          },
   };
 
   factory GoldSaleDraft.fromJson(Map<String, dynamic> json) {
@@ -69,11 +79,21 @@ class GoldSaleDraft {
       );
     }).toList();
 
+    final tradeInJson = json['tradeIn'] as Map<String, dynamic>?;
+
     return GoldSaleDraft(
+      tradeIn: tradeInJson == null || tradeInJson['karat'] == null
+          ? null
+          : TradeInInput(
+              weightMg: tradeInJson['weightMg'] as int,
+              karat: tradeInJson['karat'] as int,
+              buyPricePerGramPiasters:
+                  tradeInJson['buyPricePerGramPiasters'] as int,
+              deductionBasisPoints: tradeInJson['deductionBasisPoints'] as int,
+            ),
       items: items,
       discountPercent: json['discountPercent'] as int,
-      supervisorApprovalNumber:
-          json['supervisorApprovalNumber'] as String?,
+      supervisorApprovalNumber: json['supervisorApprovalNumber'] as String?,
       cashAmountText: json['cashAmountText'] as String,
       otherAmountText: json['otherAmountText'] as String,
       otherMethod: GoldSalePaymentMethod.values.byName(

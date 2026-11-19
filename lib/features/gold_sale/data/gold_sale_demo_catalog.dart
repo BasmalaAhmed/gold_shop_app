@@ -31,7 +31,7 @@ class GoldSaleDemoCatalog {
       status: GoldItemStatus.sold,
       grossWeightMg: 4000,
       stonesWeightMg: 0,
-      karat: 21,
+      karat: 24,
     ),
     'DEMO-1005': GoldSaleProduct(
       code: 'DEMO-1005',
@@ -45,7 +45,7 @@ class GoldSaleDemoCatalog {
       status: GoldItemStatus.inTransit,
       grossWeightMg: 4000,
       stonesWeightMg: 0,
-      karat: 21,
+      karat: 18,
     ),
   };
 

@@ -5,15 +5,30 @@ import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_payment_method
 import '../utils/piaster_parser.dart';
 import 'money_row.dart';
 
+typedef PaymentDraftChanged =
+    void Function({
+      required String cashAmountText,
+      required String otherAmountText,
+      required GoldSalePaymentMethod otherMethod,
+    });
+
 class PaymentCard extends StatefulWidget {
   const PaymentCard({
     super.key,
     required this.amountDuePiasters,
     required this.onSubmit,
+    this.initialCashAmountText = '',
+    this.initialOtherAmountText = '',
+    this.initialOtherMethod = GoldSalePaymentMethod.card,
+    required this.onDraftChanged,
   });
 
   final int amountDuePiasters;
   final ValueChanged<List<GoldSalePayment>> onSubmit;
+  final String initialCashAmountText;
+  final String initialOtherAmountText;
+  final GoldSalePaymentMethod initialOtherMethod;
+  final PaymentDraftChanged onDraftChanged;
 
   @override
   State<PaymentCard> createState() => _PaymentCardState();
@@ -25,6 +40,14 @@ class _PaymentCardState extends State<PaymentCard> {
 
   GoldSalePaymentMethod _otherMethod = GoldSalePaymentMethod.card;
   String? _inputError;
+
+  @override
+  void initState() {
+    super.initState();
+    _cashController.text = widget.initialCashAmountText;
+    _otherController.text = widget.initialOtherAmountText;
+    _otherMethod = widget.initialOtherMethod;
+  }
 
   @override
   void dispose() {
@@ -71,6 +94,14 @@ class _PaymentCardState extends State<PaymentCard> {
     widget.onSubmit(payments);
   }
 
+  void _notifyDraftChanged() {
+    widget.onDraftChanged(
+      cashAmountText: _cashController.text,
+      otherAmountText: _otherController.text,
+      otherMethod: _otherMethod,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -88,6 +119,7 @@ class _PaymentCardState extends State<PaymentCard> {
             const SizedBox(height: 12),
             TextField(
               controller: _cashController,
+              onChanged: (_) => _notifyDraftChanged(),
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
@@ -124,12 +156,14 @@ class _PaymentCardState extends State<PaymentCard> {
                   setState(() {
                     _otherMethod = method;
                   });
+                  _notifyDraftChanged();
                 }
               },
             ),
             const SizedBox(height: 12),
             TextField(
               controller: _otherController,
+              onChanged: (_) => _notifyDraftChanged(),
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),

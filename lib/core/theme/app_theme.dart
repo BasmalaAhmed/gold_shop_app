@@ -106,7 +106,7 @@ abstract class AppTheme {
 
     colorScheme: darkColorScheme,
 
-    textTheme: GoogleFonts.montserratTextTheme(ThemeData.dark().textTheme)
+    textTheme: GoogleFonts.cairoTextTheme(ThemeData.dark().textTheme)
         .apply(
           bodyColor: darkColorScheme.onSurface,
           displayColor: darkColorScheme.onSurface,
@@ -123,7 +123,7 @@ abstract class AppTheme {
 
     colorScheme: lightColorScheme,
 
-    textTheme: GoogleFonts.montserratTextTheme(ThemeData.light().textTheme)
+    textTheme: GoogleFonts.cairoTextTheme(ThemeData.light().textTheme)
         .apply(
           bodyColor: lightColorScheme.onSurface,
           displayColor: lightColorScheme.onSurface,

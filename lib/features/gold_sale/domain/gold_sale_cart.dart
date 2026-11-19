@@ -18,6 +18,7 @@ class GoldSaleCart {
   final GoldSaleCalc _calculator = const GoldSaleCalc();
   final List<GoldSaleCartItem> _items = [];
   int get discountPercent => _discountPercent;
+  String? get supervisorApprovalNumber => _supervisorApprovalNumber;
 
   List<GoldSaleCartItem> get items => List.unmodifiable(_items);
 
@@ -99,5 +100,29 @@ class GoldSaleCart {
         ? null
         : approvalNumber;
     _discountPercent = discountPercent;
+  }
+
+  void restore({
+    required List<GoldSaleCartItem> items,
+    required int discountPercent,
+    String? supervisorApprovalNumber,
+  }) {
+    final restoredCart = GoldSaleCart();
+
+    for (final item in items) {
+      restoredCart.add(item);
+    }
+
+    restoredCart.setDiscount(
+      discountPercent: discountPercent,
+      supervisorApprovalNumber: supervisorApprovalNumber,
+    );
+
+    _items
+      ..clear()
+      ..addAll(restoredCart._items);
+
+    _discountPercent = restoredCart._discountPercent;
+    _supervisorApprovalNumber = restoredCart._supervisorApprovalNumber;
   }
 }

@@ -20,8 +20,7 @@ class _DiscountCardState extends State<DiscountCard> {
 
   String? _error;
 
-  bool get _needsApproval =>
-      (int.tryParse(_discountController.text) ?? 0) > 10;
+  bool get _needsApproval => (int.tryParse(_discountController.text) ?? 0) > 10;
 
   @override
   void initState() {
@@ -41,7 +40,9 @@ class _DiscountCardState extends State<DiscountCard> {
   void _applyDiscount() {
     final discountPercent = int.tryParse(_discountController.text.trim());
 
-    if (discountPercent == null || discountPercent < 0 || discountPercent > 100) {
+    if (discountPercent == null ||
+        discountPercent < 0 ||
+        discountPercent > 100) {
       setState(() {
         _error = 'أدخل نسبة صحيحة من 0 إلى 100.';
       });
@@ -70,16 +71,12 @@ class _DiscountCardState extends State<DiscountCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Color(0XFFE8F7EE),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              'خصم الفاتورة',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text('خصم الفاتورة', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 12),
             TextField(
               key: const ValueKey('discountPercentField'),
@@ -87,17 +84,7 @@ class _DiscountCardState extends State<DiscountCard> {
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 labelText: 'نسبة الخصم',
-                labelStyle: TextStyle(color: Color(0XFF49111C)),
                 suffixText: '%',
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF49111C)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF49111C)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF49111C)),
-                ),
               ),
               onChanged: (_) {
                 setState(() {
@@ -126,7 +113,6 @@ class _DiscountCardState extends State<DiscountCard> {
             const SizedBox(height: 12),
             FilledButton(
               onPressed: _applyDiscount,
-              style: FilledButton.styleFrom(backgroundColor: Color(0XFF49111C)),
               child: const Text('تطبيق الخصم'),
             ),
           ],

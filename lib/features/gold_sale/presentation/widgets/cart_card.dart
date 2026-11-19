@@ -21,7 +21,6 @@ class CartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Color(0XFFE8F7EE),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -47,7 +46,7 @@ class CartCard extends StatelessWidget {
                   result: results[index],
                   onRemove: () => onRemove(items[index].code),
                 ),
-            const Divider(height: 24),
+            Divider(height: 24, color: Theme.of(context).colorScheme.tertiary,),
             MoneyRow(
               label: 'إجمالي الفاتورة',
               amount: totalPiasters,

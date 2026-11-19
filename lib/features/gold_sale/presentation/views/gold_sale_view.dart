@@ -12,9 +12,16 @@ import 'package:gold_shop_app/features/gold_sale/presentation/widgets/discount_c
 import 'package:gold_shop_app/features/gold_sale/presentation/widgets/item_search_card.dart';
 import 'package:gold_shop_app/features/gold_sale/presentation/widgets/labor_pricing_dialog.dart';
 import 'package:gold_shop_app/features/gold_sale/presentation/widgets/payment_card.dart';
+import 'package:gold_shop_app/features/gold_sale/presentation/widgets/theme_icon.dart';
 
 class GoldSaleView extends StatefulWidget {
-  const GoldSaleView({super.key});
+  const GoldSaleView({
+    super.key,
+    required this.onThemeToggle,
+  });
+
+  final VoidCallback onThemeToggle;
+  
 
   @override
   State<GoldSaleView> createState() => _GoldSaleViewState();
@@ -92,7 +99,6 @@ class _GoldSaleViewState extends State<GoldSaleView> {
 
   Future<void> _chooseDemoBarcode() async {
     final product = await showModalBottomSheet<GoldSaleProduct>(
-      backgroundColor: Color(0XFFE8F7EE),
       context: context,
       useSafeArea: true,
       builder: (_) => DemoBarcodeSheet(items: _catalog.demoItems),
@@ -162,12 +168,12 @@ class _GoldSaleViewState extends State<GoldSaleView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0XFF49111C),
       appBar: AppBar(
-        title: const Text('بيع الذهب'),
+        title: const Text('شاشة بيع الذهب'),
         centerTitle: true,
-        backgroundColor: Color(0XFF49111C),
-        foregroundColor: Colors.white,
+        actions: [
+          ThemeIcon(onThemeToggle: widget.onThemeToggle)
+        ],
       ),
       body: SafeArea(
         child: AdaptiveLayout(

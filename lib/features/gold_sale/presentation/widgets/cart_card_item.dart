@@ -16,17 +16,20 @@ class CartCardItem extends StatelessWidget {
   final VoidCallback onRemove;
 
   String _formatWeight(int weightMg) {
-      final grams = weightMg ~/ 1000;
-      final milligrams = (weightMg % 1000).toString().padLeft(3, '0');
-      return '$grams.$milligrams جم';
-    }
+    final grams = weightMg ~/ 1000;
+    final milligrams = (weightMg % 1000).toString().padLeft(3, '0');
+    return '$grams.$milligrams جم';
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Card(
-        color: Color(0XFFCECCCC),
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Theme.of(context).colorScheme.tertiary),
+          borderRadius: BorderRadius.circular(9),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(
@@ -56,7 +59,7 @@ class CartCardItem extends StatelessWidget {
                 amount: result.laborAfterDiscountPiasters,
               ),
               MoneyRow(label: 'الضريبة', amount: result.taxPiasters),
-              const Divider(),
+              Divider(color: Theme.of(context).colorScheme.tertiary),
               MoneyRow(
                 label: 'إجمالي القطعة',
                 amount: result.totalPiasters,

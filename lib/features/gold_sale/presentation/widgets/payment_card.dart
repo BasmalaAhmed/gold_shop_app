@@ -74,7 +74,6 @@ class _PaymentCardState extends State<PaymentCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Color(0XFFE8F7EE),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -94,37 +93,14 @@ class _PaymentCardState extends State<PaymentCard> {
               ),
               decoration: const InputDecoration(
                 labelText: 'المبلغ كاش',
-                labelStyle: TextStyle(color: Color(0XFF49111C)),
                 suffixText: 'ج.م',
                 hintText: 'مثال: 10000.00',
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF49111C)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF49111C)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF49111C)),
-                ),
               ),
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<GoldSalePaymentMethod>(
-              dropdownColor: Color(0XFFE8F7EE),
               initialValue: _otherMethod,
-              decoration: const InputDecoration(
-                labelText: 'طريقة دفع أخرى',
-                labelStyle: TextStyle(color: Color(0XFF49111C)),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF49111C)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF49111C)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF49111C)),
-                ),
-              ),
+              decoration: const InputDecoration(labelText: 'طريقة دفع أخرى'),
               items: const [
                 DropdownMenuItem(
                   value: GoldSalePaymentMethod.card,
@@ -159,18 +135,8 @@ class _PaymentCardState extends State<PaymentCard> {
               ),
               decoration: const InputDecoration(
                 labelText: 'المبلغ بطريقة الدفع الأخرى',
-                labelStyle: TextStyle(color: Color(0XFF49111C)),
                 suffixText: 'ج.م',
                 hintText: 'مثال: 8157.10',
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF49111C)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF49111C)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0XFF49111C)),
-                ),
               ),
             ),
             if (_inputError != null) ...[
@@ -183,7 +149,6 @@ class _PaymentCardState extends State<PaymentCard> {
             const SizedBox(height: 12),
             FilledButton(
               onPressed: _submit,
-              style: FilledButton.styleFrom(backgroundColor: Color(0XFF49111C)),
               child: const Text('التحقق من المبلغ'),
             ),
           ],

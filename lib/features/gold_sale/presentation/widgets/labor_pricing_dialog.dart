@@ -87,14 +87,12 @@ class _LaborPricingDialogState extends State<LaborPricingDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Color(0XFFE8F7EE),
       title: const Text('تحديد المصنعية'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           DropdownButtonFormField<LaborPricingType>(
             initialValue: _type,
-            dropdownColor: Color(0XFFE8F7EE),
             decoration: const InputDecoration(labelText: 'طريقة الحساب'),
             items: const [
               DropdownMenuItem(
@@ -142,11 +140,10 @@ class _LaborPricingDialogState extends State<LaborPricingDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('إلغاء' , style: TextStyle(color: Color(0XFF49111C)),),
+          child: const Text('إلغاء' ,),
         ),
         FilledButton(
           onPressed: _submit,
-          style: FilledButton.styleFrom(backgroundColor: Color(0XFF49111C)),
           child: const Text('إضافة القطعة'),
         ),
       ],

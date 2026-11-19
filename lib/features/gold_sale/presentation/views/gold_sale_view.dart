@@ -13,6 +13,7 @@ import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_price_repo.dar
 import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_product.dart';
 import 'package:gold_shop_app/features/gold_sale/domain/gold_sale_trade_in.dart';
 import 'package:gold_shop_app/features/gold_sale/presentation/widgets/adaptive_layout.dart';
+import 'package:gold_shop_app/features/gold_sale/presentation/widgets/barcode_scanner_dialog.dart';
 import 'package:gold_shop_app/features/gold_sale/presentation/widgets/cart_card.dart';
 import 'package:gold_shop_app/features/gold_sale/presentation/widgets/demo_barcode_sheet.dart';
 import 'package:gold_shop_app/features/gold_sale/presentation/widgets/discount_card.dart';
@@ -207,6 +208,19 @@ class _GoldSaleViewState extends State<GoldSaleView> {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  Future<void> _scanBarcode() async {
+    if (!isBarcodeScanningSupported) {
+      _showMessage(
+        'مسح الباركود غير مدعوم على هذا الجهاز. اكتب الكود أو اختار باركود تجريبي.',
+      );
+      return;
+    }
+    final code = await showBarcodeScanner(context);
+    if (code == null || !mounted) return;
+    _codeController.text = code;
+    await _addByCode();
   }
 
   String _unavailableMessage(GoldItemStatus status) {
@@ -410,6 +424,7 @@ class _GoldSaleViewState extends State<GoldSaleView> {
                   codeController: _codeController,
                   onSearch: _addByCode,
                   onChooseDemoBarcode: _chooseDemoBarcode,
+                  onScanBarcode: _scanBarcode,
                 ),
                 cartPanel: CartCard(
                   items: _cart.items,

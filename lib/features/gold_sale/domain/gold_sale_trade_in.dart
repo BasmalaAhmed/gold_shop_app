@@ -21,8 +21,10 @@ class TradeInResult {
   const TradeInResult({
     required this.deductionPiasters,
     required this.valuePiasters,
+    required this.goldValuePiasters,
   });
 
+  final int goldValuePiasters;
   final int deductionPiasters;
   final int valuePiasters;
 }
@@ -59,6 +61,7 @@ class TradeInCalc {
     return TradeInResult(
       deductionPiasters: deduction,
       valuePiasters: value,
+      goldValuePiasters: goldValue,
     );
   }
 }

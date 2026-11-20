@@ -127,7 +127,7 @@ class CalculationBottomSheet extends StatelessWidget {
           _row(
             title: 'خصم $discountPercent% على المصنعية',
             value: PriceFormatter.formatPiasters(
-              result.laborBeforeDiscountPiasters,
+              result.discountPiasters,
             ),
             isGreen: true,
           ),

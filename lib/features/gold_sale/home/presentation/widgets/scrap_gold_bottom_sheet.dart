@@ -117,13 +117,17 @@ class _ScrapGoldBottomSheetState extends State<ScrapGoldBottomSheet> {
       );
     } catch (_) {}
 
-    final buyPriceEgp = PriceFormatter.formatPiasters(
-      widget.buyPricePerGramPiasters,
-    );
 
     final valueEgp = PriceFormatter.formatPiasters(result?.valuePiasters ?? 0);
 
-    final weight = _weightMg / 1000.0;
+    final goldValueEgp = PriceFormatter.formatPiasters(
+      result?.goldValuePiasters ?? 0,
+    );
+
+    final deductionEgp = PriceFormatter.formatPiasters(
+      result?.deductionPiasters ?? 0,
+    );
+
 
     return Container(
       decoration: BoxDecoration(
@@ -278,15 +282,28 @@ class _ScrapGoldBottomSheetState extends State<ScrapGoldBottomSheet> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  '(${weight.toStringAsFixed(3)} × $buyPriceEgp) - خصم ${_deductionPercent.toStringAsFixed(2)}%',
-                  textAlign: TextAlign.right,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppTheme.textSecondary,
-                  ),
+                _buildSummaryRow('قيمة الذهب', '$goldValueEgp ج.م'),
+                const SizedBox(height: 8),
+                _buildSummaryRow(
+                  'قيمة الخصم (${_deductionPercent.toStringAsFixed(1)}%)',
+                  '$deductionEgp ج.م',
+                  valueColor: AppTheme.redText,
                 ),
-                const SizedBox(height: 6),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Divider(height: 1),
+                ),
+                _buildSummaryRow(
+                  'معادلة حساب البدل',
+                  'قيمة الذهب - '
+                      'قيمة الخصم',
+                      valueColor: AppTheme.textSecondary,
+                ),
+
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Divider(height: 1),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -365,6 +382,30 @@ class _ScrapGoldBottomSheetState extends State<ScrapGoldBottomSheet> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSummaryRow(
+    String title,
+    String value, {
+    Color valueColor = AppTheme.textPrimary,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: valueColor,
+          ),
+        ),
+      ],
     );
   }
 }

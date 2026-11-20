@@ -202,7 +202,7 @@ class _DiscountBottomSheetState extends State<DiscountBottomSheet> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'إجمالي القطعة بعد الخصم',
+                      'إجمالي الحساب بعد الخصم',
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,

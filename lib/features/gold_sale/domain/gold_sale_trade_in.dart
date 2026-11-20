@@ -19,11 +19,11 @@ class TradeInInput {
 
 class TradeInResult {
   const TradeInResult({
-    required this.weightAfterDeductionMg,
+    required this.deductionPiasters,
     required this.valuePiasters,
   });
 
-  final int weightAfterDeductionMg;
+  final int deductionPiasters;
   final int valuePiasters;
 }
 
@@ -44,20 +44,20 @@ class TradeInCalc {
       throw ArgumentError('Deduction must be at least 0 and below 100%.');
     }
 
-    final weightAfter = roundHalfUp(
-      input.weightMg * (10000 - input.deductionBasisPoints),
-      10000,
-    );
-    if (weightAfter <= 0) {
-      throw ArgumentError('Weight after deduction must be greater than zero.');
-    }
-
-    final value = roundHalfUp(
-      weightAfter * input.buyPricePerGramPiasters,
+    final goldValue = roundHalfUp(
+      input.weightMg * input.buyPricePerGramPiasters,
       1000,
     );
+
+    final deduction = roundHalfUp(
+      goldValue * input.deductionBasisPoints,
+      10000,
+    );
+
+    final value = goldValue - deduction;
+
     return TradeInResult(
-      weightAfterDeductionMg: weightAfter,
+      deductionPiasters: deduction,
       valuePiasters: value,
     );
   }

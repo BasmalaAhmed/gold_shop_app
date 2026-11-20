@@ -123,7 +123,7 @@ class _ScrapGoldBottomSheetState extends State<ScrapGoldBottomSheet> {
 
     final valueEgp = PriceFormatter.formatPiasters(result?.valuePiasters ?? 0);
 
-    final netWeight = (result?.weightAfterDeductionMg ?? 0) / 1000.0;
+    final weight = _weightMg / 1000.0;
 
     return Container(
       decoration: BoxDecoration(
@@ -223,7 +223,7 @@ class _ScrapGoldBottomSheetState extends State<ScrapGoldBottomSheet> {
           ),
           const SizedBox(height: 14),
           const Text(
-            'خصم الوزن',
+            'خصم من قيمة الذهب',
             textAlign: TextAlign.right,
             style: TextStyle(fontSize: 12, color: AppTheme.textSecondary),
           ),
@@ -279,7 +279,7 @@ class _ScrapGoldBottomSheetState extends State<ScrapGoldBottomSheet> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                 '${netWeight.toStringAsFixed(3)} جم × سعر الشراء $buyPriceEgp',
+                  '(${weight.toStringAsFixed(3)} × $buyPriceEgp) - خصم ${_deductionPercent.toStringAsFixed(2)}%',
                   textAlign: TextAlign.right,
                   style: const TextStyle(
                     fontSize: 12,
@@ -306,7 +306,6 @@ class _ScrapGoldBottomSheetState extends State<ScrapGoldBottomSheet> {
                         color: AppTheme.greenText,
                       ),
                     ),
-                    
                   ],
                 ),
               ],

@@ -17,12 +17,6 @@ class GoldTradeInCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deductionPct = (tradeIn.deductionBasisPoints / 100.0)
-        .toStringAsFixed(1)
-        .replaceAll('.0', '');
-
-    final netWeight =
-        const TradeInCalc().calculate(tradeIn).weightAfterDeductionMg / 1000.0;
 
     final valueEgp = PriceFormatter.formatPiasters(tradeInValuePiasters);
 
@@ -68,7 +62,7 @@ class GoldTradeInCard extends StatelessWidget {
                 const SizedBox(height: 2),
 
                 Text(
-                  '${netWeight.toStringAsFixed(3)} جم بعد خصم $deductionPct%',
+                  '${(tradeIn.weightMg / 1000).toStringAsFixed(3)} جم',
                   style: const TextStyle(
                     fontSize: 11,
                     color: AppTheme.textSecondary,

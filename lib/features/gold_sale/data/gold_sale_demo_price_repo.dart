@@ -11,7 +11,7 @@ class GoldSaleDemoPriceRepo implements GoldSalePriceRepo {
 
   static const Map<int, int> _buyPricesByKarat = {
     24: 540000,
-    21: 400000,
+    21: 405000,
     18: 340000,
   };
 

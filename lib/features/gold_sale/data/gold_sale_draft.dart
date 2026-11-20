@@ -13,6 +13,7 @@ class GoldSaleDraft {
     required this.otherAmountText,
     required this.otherMethod,
     this.tradeIn,
+    this.savedAt,
   });
 
   final List<GoldSaleCartItem> items;
@@ -22,6 +23,7 @@ class GoldSaleDraft {
   final String otherAmountText;
   final GoldSalePaymentMethod otherMethod;
   final TradeInInput? tradeIn;
+  final DateTime? savedAt;
 
   Map<String, dynamic> toJson() => {
     'items': items.map((item) {
@@ -45,6 +47,7 @@ class GoldSaleDraft {
     'cashAmountText': cashAmountText,
     'otherAmountText': otherAmountText,
     'otherMethod': otherMethod.name,
+    'savedAt': savedAt?.toIso8601String(),
     'tradeIn': tradeIn == null
         ? null
         : {
@@ -99,6 +102,9 @@ class GoldSaleDraft {
       otherMethod: GoldSalePaymentMethod.values.byName(
         json['otherMethod'] as String,
       ),
+      savedAt: json['savedAt'] != null
+          ? DateTime.parse(json['savedAt'] as String)
+          : null,
     );
   }
 }

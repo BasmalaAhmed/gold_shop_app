@@ -11,10 +11,25 @@ class GoldSaleDraftRepo {
 
   final SharedPreferencesAsync _preferences;
 
-  Future<void> save(GoldSaleDraft draft) async {
-    final json = jsonEncode(draft.toJson());
-    await _preferences.setString(_draftKey, json);
-  }
+  Future<DateTime> save(GoldSaleDraft draft) async {
+  final savedAt = DateTime.now();
+
+  final draftToSave = GoldSaleDraft(
+    items: draft.items,
+    discountPercent: draft.discountPercent,
+    supervisorApprovalNumber: draft.supervisorApprovalNumber,
+    cashAmountText: draft.cashAmountText,
+    otherAmountText: draft.otherAmountText,
+    otherMethod: draft.otherMethod,
+    tradeIn: draft.tradeIn,
+    savedAt: savedAt,
+  );
+
+  final json = jsonEncode(draftToSave.toJson());
+  await _preferences.setString(_draftKey, json);
+
+  return savedAt;
+}
 
   Future<GoldSaleDraft?> load() async {
     final json = await _preferences.getString(_draftKey);

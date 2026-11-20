@@ -35,7 +35,7 @@ class _BarcodeScannerDialogState extends State<_BarcodeScannerDialog> {
   }
 
   void _onDetect(BarcodeCapture capture) {
-    if (_handled) return; // أول قراءة بس
+    if (_handled) return; 
     for (final barcode in capture.barcodes) {
       final value = barcode.rawValue?.trim();
       if (value != null && value.isNotEmpty) {
@@ -68,7 +68,7 @@ class _BarcodeScannerDialogState extends State<_BarcodeScannerDialog> {
                     child: Padding(
                       padding: EdgeInsets.all(16),
                       child: Text(
-                        'تعذر تشغيل الكاميرا. تأكدي من السماح باستخدامها.',
+                        'تعذر تشغيل الكاميرا. تأكد من السماح باستخدامها.',
                         textAlign: TextAlign.center,
                       ),
                     ),

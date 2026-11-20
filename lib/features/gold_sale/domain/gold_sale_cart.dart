@@ -8,11 +8,13 @@ class GoldSaleCartItem {
     required this.code,
     required this.input,
     required this.status,
+    this.name = 'قطعة ذهب',
   });
 
   final String code;
   final GoldSaleInput input;
   final GoldItemStatus status;
+  final String name;
 }
 
 class GoldSaleCart {

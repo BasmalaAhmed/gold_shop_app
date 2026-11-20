@@ -5,23 +5,21 @@ class DeleteConfirmDialog extends StatelessWidget {
   const DeleteConfirmDialog({
     super.key,
     required this.onConfirm,
-    this.itemCode = 'G-1042',
+    required this.itemNames,
   });
 
   final VoidCallback onConfirm;
-  final String itemCode;
+  final List<String> itemNames;
 
   static Future<bool?> show(
     BuildContext context, {
     required VoidCallback onConfirm,
-    String itemCode = 'G-1042',
+    required List<String> itemNames,
   }) {
     return showDialog<bool>(
       context: context,
-      builder: (context) => DeleteConfirmDialog(
-        onConfirm: onConfirm,
-        itemCode: itemCode,
-      ),
+      builder: (context) =>
+          DeleteConfirmDialog(onConfirm: onConfirm, itemNames: itemNames),
     );
   }
 
@@ -60,13 +58,38 @@ class DeleteConfirmDialog extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'ستُحذف المسودة نهائيًا وتعود القطعة $itemCode متاحة للبيع. لا يمكن التراجع عن هذا الإجراء.',
+              'ستُحذف المسودة نهائيًا، وستعود القطع التالية متاحة للبيع:',
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 13,
                 color: AppTheme.textSecondary,
                 height: 1.5,
               ),
+            ),
+            const SizedBox(height: 12),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 55),
+              child: ListView.separated(
+                itemBuilder: (context, index) {
+                  return Text(
+                    '• ${itemNames[index]}',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.textPrimary,
+                    ),
+                  );
+                },
+                separatorBuilder: (_, _) => const SizedBox(height: 6),
+                itemCount: itemNames.length,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'لا يمكن التراجع عن هذا الإجراء.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 13, color: AppTheme.textSecondary),
             ),
             const SizedBox(height: 24),
             SizedBox(

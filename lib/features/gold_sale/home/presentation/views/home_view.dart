@@ -355,7 +355,9 @@ class _HomeViewState extends State<HomeView> {
   void _confirmDeleteInvoice() {
     DeleteConfirmDialog.show(
       context,
-      itemCode: _cart.items.isNotEmpty ? _cart.items.first.code : 'G-1042',
+      itemNames: _cart.items
+          .map((item) => '${item.name} (${item.code})')
+          .toList(),
       onConfirm: () async {
         if (!mounted) return;
         setState(() {
